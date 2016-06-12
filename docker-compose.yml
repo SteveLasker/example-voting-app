@@ -26,6 +26,8 @@ services:
       - back-tier
 
   worker:
+    build: ./worker/ .
+    dockerfile: dockerfile.debug
     links:
       - db
       - redis
