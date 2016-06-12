@@ -26,7 +26,7 @@ services:
       - back-tier
 
   worker:
-    build: ./worker
+    build: ./worker/app .
     links:
       - db
       - redis
