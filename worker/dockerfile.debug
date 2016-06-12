@@ -1,11 +1,14 @@
-FROM microsoft/dotnet:1.0.0-preview1
+FROM microsoft/dotnet:1.0.0-rc2-core
 
+# Set the Working Directory
 WORKDIR /app
 
-COPY . /app/src
+# Copy the Debugger
+COPY /clrdbg /clrdbg
+RUN chmod 700 -R /clrdbg
 
-RUN dotnet restore -v minimal  src/
-RUN dotnet publish -c release -o ./ src/
-RUN rm -rf src/ $HOME/.nuget/
+# Copy the app
+COPY . /app
 
-ENTRYPOINT dotnet Worker.dll
+# If we are launching through a remote debugger wait for it, otherwise start the app
+ENTRYPOINT ["/bin/bash", "-c", "if [ \"$REMOTE_DEBUGGING\" -eq 0 ]; then dotnet Workder.dll; else sleep infinity; fi"]
