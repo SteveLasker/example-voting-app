@@ -7,4 +7,4 @@ WORKDIR /app
 COPY . /app
 
 # Start the app
-ENTRYPOINT dotnet worker.dll
+ENTRYPOINT dotnet Worker.dll
